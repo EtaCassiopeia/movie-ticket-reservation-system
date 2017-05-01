@@ -5,14 +5,9 @@ import java.util.UUID
 import akka.actor.ActorSystem
 import akka.event.{Logging, LoggingAdapter}
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.HttpResponse
-import akka.http.scaladsl.model.StatusCodes.{InternalServerError, NotFound}
-import akka.http.scaladsl.server.Directives.{complete, extractUri}
-import akka.http.scaladsl.server.ExceptionHandler
 import akka.stream.ActorMaterializer
 import com.google.common.net.HostAndPort
 import com.orbitz.consul.Consul
-import com.veon.common.exception.InternalException
 import com.veon.common.utils.{DatabaseService, Utils}
 import com.veon.consul.discovery.ConsulServiceDiscovery
 import com.veon.consul.serviceregistry.{ConsulService, ConsulServiceRegistry}
