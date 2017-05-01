@@ -5,7 +5,7 @@ trait DiscoverableService {
   def id:String
 }
 
-abstract class ServiceRegistry[T <: DiscoverableService] {
+trait ServiceRegistry[T <: DiscoverableService] {
   def register(service: T): Unit
 
   def deregister(serviceRegistry: T): Unit
