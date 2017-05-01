@@ -1,0 +1,86 @@
+version: '2.1'
+
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "test"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "veon"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: "pg_isready -h localhost -p 5432 -q -U postgres"
+      interval: 3s
+      timeout: 5s
+      retries: 5
+  consul:
+    image: consul:latest
+    ports:
+      - "8500:8500"
+  movie-service:
+    image: veon.com/zainalpour/movie-service:latest
+    ports:
+      - "9001"
+    environment:
+      DB_USER: "postgres"
+      DB_PASSWORD: "test"
+      DB_NAME: "veon"
+      PORT: "9001"
+      SERVICE_NAME: "Movies"
+      DATABASE_PORT_5432_TCP_PORT: "5432"
+      DATABASE_PORT_5432_TCP_ADDR: database
+      CONSUL_HOST: consul
+    depends_on:
+      consul:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    links:
+      - consul
+      - "postgres:database"
+  reservation-service:
+    image: veon.com/zainalpour/reservation-service:latest
+    ports:
+      - "9001"
+    environment:
+      DB_USER: "postgres"
+      DB_PASSWORD: "test"
+      DB_NAME: "veon"
+      PORT: "9002"
+      SERVICE_NAME: "Reservation"
+      DATABASE_PORT_5432_TCP_PORT: "5432"
+      DATABASE_PORT_5432_TCP_ADDR: database
+      CONSUL_HOST: consul
+    depends_on:
+      consul:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    links:
+      - consul
+      - "postgres:database"
+  aggregation-service:
+    image: veon.com/zainalpour/aggregation-service:latest
+    ports:
+      - "9001"
+    environment:
+      PORT: "9003"
+      SERVICE_NAME: "Aggregation"
+      CONSUL_HOST: consul
+    depends_on:
+      - consul
+      - movie-service
+      - reservation-service
+    links:
+      - consul
+  nginx-consul-template:
+    build: .
+    links:
+      - consul
+    depends_on:
+      - consul
+    ports:
+      - "8900:80"

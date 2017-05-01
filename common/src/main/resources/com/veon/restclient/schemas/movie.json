@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://veon.com/api/movie.json#",
+  "type": "object",
+  "description": "A movie object.",
+  "properties": {
+    "imdbId": {
+      "required": true,
+      "type": "string"
+    },
+    "screenId": {
+      "required": true,
+      "type": "string"
+    },
+    "title": {
+      "required": true,
+      "type": "string"
+    },
+    "availableSeats": {
+      "required": true,
+      "type": "integer"
+    }
+  }
+}

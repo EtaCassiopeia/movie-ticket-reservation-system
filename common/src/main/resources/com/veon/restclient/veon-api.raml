@@ -1,0 +1,40 @@
+#%RAML 0.8
+---
+title: service raml
+version: v1
+
+schemas:
+  - movie:         !include schemas/movie.json
+  - reservation:   !include schemas/reservation.json
+
+/api/movies:
+  /{imdbId}/{screenId}:
+    uriParameters:
+      imdbId:
+        description: The IMDB movie identifier.
+        type: string
+      screenId:
+        description: Is an externally managed identifier of information when and where the movie is screened.
+        type: string
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              schema: movie
+
+/api/reserves:
+  /{imdbId}/{screenId}:
+    uriParameters:
+      imdbId:
+        description: The IMDB movie identifier.
+        type: string
+      screenId:
+        description: Is an externally managed identifier of information when and where the movie is screened.
+        type: string
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              schema: integer

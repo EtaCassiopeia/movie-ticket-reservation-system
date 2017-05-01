@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://veon.com/api/reservation.json#",
+  "type": "object",
+  "description": "A reservation object.",
+  "properties": {
+    "imdbId": {
+      "required": true,
+      "type": "string"
+    },
+    "screenId": {
+      "required": true,
+      "type": "string"
+    },
+    "reservedSeats": {
+      "required": true,
+      "type": "integer"
+    }
+  }
+}
