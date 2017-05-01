@@ -29,7 +29,7 @@ When you break down your monolithic application to several focused microservices
 This system utilizes [**Consul**](http://consul.io) to implement the *client-side discovery pattern* and [scraml.io](http://scraml.io/) to access the REST APIs based on a RAML model.
 When using client-side discovery pattern, the client is responsible for determining the network locations of available service instances and load balancing requests across them ([**ServiceFinder**](common/src/main/scala/com/veon/consul/discovery/ServiceFinder.scala)).
 The client queries a service registry, which is a database of available service instances. The client then uses a load-balancing algorithm to select one of the available service instances and makes a request.
-Movie Ticket reservation system uses the *self-registration pattern*, in this pattern service instance is responsible for registering and unregistering itself ([**ServiceRegistry**](common/src/main/scala/com/veon/consul/serviceregistry/ServiceRegistry.scala)) with the service registry. Also, the service instance sends heartbeat requests to prevent its registration from expiring.
+Movie Ticket reservation system uses the *self-registration pattern*, in this pattern service instance is responsible for registering and unregistering itself with the service registry ([**ServiceRegistry**](common/src/main/scala/com/veon/consul/serviceregistry/ServiceRegistry.scala)). Also, the service instance sends heartbeat requests to prevent its registration from expiring.
 
 An alternative approach, which decouples services from the service registry, is the third-party registration pattern such as [Registrator](http://gliderlabs.github.io/registrator/latest/). 
 
