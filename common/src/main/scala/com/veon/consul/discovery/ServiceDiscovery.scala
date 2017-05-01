@@ -10,6 +10,6 @@ case object PickRandomInstance extends PickStrategy
 
 case object PickRoundRobinInstance extends PickStrategy
 
-abstract class ServiceDiscovery {
+trait ServiceDiscovery {
   def findService(name: String,pickStrategy: PickStrategy=PickRoundRobinInstance): Option[Service]
 }
